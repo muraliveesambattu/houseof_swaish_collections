@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { contactSchema } from "@/lib/validations";
-import { resend, FROM_EMAIL } from "@/lib/resend";
+import { getResendClient, FROM_EMAIL } from "@/lib/resend";
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const data = contactSchema.parse(body);
 
-    await resend.emails.send({
+    await getResendClient().emails.send({
       from: FROM_EMAIL,
       to: process.env.ADMIN_EMAIL ?? "admin@thecoordsetstudio.com",
       subject: `Contact Form: ${data.subject}`,

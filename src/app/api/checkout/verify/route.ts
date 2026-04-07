@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { verifyRazorpaySignature } from "@/lib/razorpay";
-import { resend, FROM_EMAIL } from "@/lib/resend";
+import { getResendClient, FROM_EMAIL } from "@/lib/resend";
 
 export async function POST(request: NextRequest) {
   try {
@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
     // Send confirmation email
     const emailTo = order.user?.email ?? order.guestEmail;
     if (emailTo) {
-      await resend.emails.send({
+      await getResendClient().emails.send({
         from: FROM_EMAIL,
         to: emailTo,
         subject: `Order Confirmed — ${order.orderNumber}`,
