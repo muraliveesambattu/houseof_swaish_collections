@@ -1,10 +1,20 @@
 import Razorpay from "razorpay";
 import crypto from "crypto";
 
-export const razorpay = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID!,
-  key_secret: process.env.RAZORPAY_KEY_SECRET!,
-});
+function getRequiredEnv(name: string) {
+  const value = process.env[name];
+  if (!value) {
+    throw new Error(`Missing required environment variable: ${name}`);
+  }
+  return value;
+}
+
+function getRazorpayClient() {
+  return new Razorpay({
+    key_id: getRequiredEnv("RAZORPAY_KEY_ID"),
+    key_secret: getRequiredEnv("RAZORPAY_KEY_SECRET"),
+  });
+}
 
 export function verifyRazorpaySignature(
   orderId: string,
@@ -13,7 +23,7 @@ export function verifyRazorpaySignature(
 ): boolean {
   const body = `${orderId}|${paymentId}`;
   const expectedSignature = crypto
-    .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET!)
+    .createHmac("sha256", getRequiredEnv("RAZORPAY_KEY_SECRET"))
     .update(body)
     .digest("hex");
   return expectedSignature === signature;
@@ -24,7 +34,7 @@ export function verifyWebhookSignature(
   signature: string
 ): boolean {
   const expectedSignature = crypto
-    .createHmac("sha256", process.env.RAZORPAY_WEBHOOK_SECRET!)
+    .createHmac("sha256", getRequiredEnv("RAZORPAY_WEBHOOK_SECRET"))
     .update(body)
     .digest("hex");
   return expectedSignature === signature;
@@ -35,7 +45,7 @@ export async function createRazorpayOrder(
   currency = "INR",
   receipt: string
 ) {
-  const order = await razorpay.orders.create({
+  const order = await getRazorpayClient().orders.create({
     amount: Math.round(amount * 100), // paise
     currency,
     receipt,
