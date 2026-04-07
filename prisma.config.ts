@@ -10,18 +10,19 @@ const DATABASE_URL =
   process.env["DIRECT_URL"] ??
   process.env["POSTGRES_URL_NON_POOLING"];
 
-if (!DATABASE_URL) {
-  throw new Error(
-    "Missing database connection string. Set DATABASE_URL or the Vercel Postgres variables (POSTGRES_PRISMA_URL / POSTGRES_URL)."
-  );
-}
-
 export default defineConfig({
   schema: "prisma/schema.prisma",
   migrations: {
     path: "prisma/migrations",
   },
-  datasource: {
-    url: DATABASE_URL,
-  },
+  // `prisma generate` does not need a live database connection, but Vercel runs
+  // it during `npm install`. Use a placeholder URL so install can finish even
+  // when runtime env vars have not been configured yet.
+  datasource: DATABASE_URL
+    ? {
+        url: DATABASE_URL,
+      }
+    : {
+        url: "postgresql://placeholder:placeholder@localhost:5432/placeholder",
+      },
 });
