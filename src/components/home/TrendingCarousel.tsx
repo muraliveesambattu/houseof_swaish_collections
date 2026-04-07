@@ -18,7 +18,8 @@ async function getTrendingProducts() {
       },
       take: 8,
     });
-  } catch {
+  } catch (error) {
+    console.error("Failed to load trending products", error);
     return [];
   }
 }

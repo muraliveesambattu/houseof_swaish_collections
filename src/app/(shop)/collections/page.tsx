@@ -98,9 +98,16 @@ async function getProducts(searchParams: SearchParams) {
       }),
       prisma.product.count({ where }),
     ]);
-    return { products, total, page, totalPages: Math.ceil(total / take) };
-  } catch {
-    return { products: [], total: 0, page: 1, totalPages: 0 };
+    return {
+      products,
+      total,
+      page,
+      totalPages: Math.ceil(total / take),
+      loadFailed: false,
+    };
+  } catch (error) {
+    console.error("Failed to load collections page products", error);
+    return { products: [], total: 0, page, totalPages: 0, loadFailed: true };
   }
 }
 
@@ -110,7 +117,7 @@ export default async function CollectionsPage({
   searchParams: Promise<SearchParams>;
 }) {
   const params = await searchParams;
-  const { products, total } = await getProducts(params);
+  const { products, total, loadFailed } = await getProducts(params);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
@@ -146,7 +153,16 @@ export default async function CollectionsPage({
             </div>
           </div>
 
-          {products.length === 0 ? (
+          {loadFailed ? (
+            <div className="text-center py-24">
+              <p className="font-heading text-3xl text-gray-300 mb-3">
+                We couldn&apos;t load products
+              </p>
+              <p className="font-body text-sm text-gray-400">
+                Check your database connection and Vercel environment variables.
+              </p>
+            </div>
+          ) : products.length === 0 ? (
             <div className="text-center py-24">
               <p className="font-heading text-3xl text-gray-300 mb-3">No products found</p>
               <p className="font-body text-sm text-gray-400">

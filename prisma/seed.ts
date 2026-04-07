@@ -2,10 +2,20 @@ import { PrismaClient } from "@prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import bcrypt from "bcryptjs";
 
-// Use direct TCP connection for seeding (not the prisma+postgres:// accelerate URL)
+const directCandidates = [
+  process.env.DIRECT_URL,
+  process.env.POSTGRES_URL_NON_POOLING,
+  process.env.POSTGRES_URL,
+  process.env.DATABASE_URL,
+  process.env.POSTGRES_PRISMA_URL,
+].filter((value): value is string => Boolean(value));
+
+// Use a direct postgres:// connection for seeding, not prisma+postgres://.
 const DIRECT_URL =
-  process.env.DIRECT_URL ??
-  "postgres://postgres:postgres@localhost:51214/template1?sslmode=disable";
+  directCandidates.find(
+    (value) =>
+      value.startsWith("postgres://") || value.startsWith("postgresql://")
+  ) ?? "postgres://postgres:postgres@localhost:51214/template1?sslmode=disable";
 
 const adapter = new PrismaPg({ connectionString: DIRECT_URL });
 const prisma = new PrismaClient({ adapter });

@@ -10,7 +10,10 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const category = await prisma.category.findUnique({ where: { slug } }).catch(() => null);
+  const category = await prisma.category.findUnique({ where: { slug } }).catch((error) => {
+    console.error(`Failed to load category metadata for ${slug}`, error);
+    return null;
+  });
   return {
     title: category?.name ?? "Collection",
     description: category?.description ?? `Browse our ${category?.name ?? "collection"}`,
@@ -20,7 +23,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function CollectionSlugPage({ params }: Props) {
   const { slug } = await params;
 
-  const category = await prisma.category.findUnique({ where: { slug } }).catch(() => null);
+  const category = await prisma.category.findUnique({ where: { slug } }).catch((error) => {
+    console.error(`Failed to load category for ${slug}`, error);
+    return null;
+  });
   if (!category) notFound();
 
   const products = await prisma.product
@@ -32,7 +38,10 @@ export default async function CollectionSlugPage({ params }: Props) {
       },
       orderBy: { createdAt: "desc" },
     })
-    .catch(() => []);
+    .catch((error) => {
+      console.error(`Failed to load products for category ${slug}`, error);
+      return [];
+    });
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
