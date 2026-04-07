@@ -26,3 +26,4 @@ export default defineConfig({
         url: "postgresql://placeholder:placeholder@localhost:5432/placeholder",
       },
 });
+
