@@ -12,7 +12,28 @@
       "Read(//opt/homebrew/**)",
       "Bash(export NVM_DIR=\"$HOME/.nvm\")",
       "Bash(source \"$NVM_DIR/nvm.sh\")",
-      "Bash(npx --version)"
+      "Bash(npx --version)",
+      "Bash(npm install:*)",
+      "Bash(npx prisma:*)",
+      "Bash(mkdir -p /Users/muraliveesambattu/Documents/thecoordsetstudio/src/app/api/admin/coupons/[id])",
+      "Bash(mkdir -p /Users/muraliveesambattu/Documents/thecoordsetstudio/src/app/api/admin/banners/[id])",
+      "Bash(npx tsc:*)",
+      "Bash(export NVM_DIR=$HOME/.nvm)",
+      "Bash(source $NVM_DIR/nvm.sh)",
+      "Bash(node -e \"const p = require\\(''''/Users/muraliveesambattu/Documents/thecoordsetstudio/node_modules/@prisma/client''''\\); console.log\\(Object.keys\\(p\\).filter\\(k => k.includes\\(''''Prisma''''\\)\\).slice\\(0,5\\)\\)\")",
+      "Bash(node -e \"const p = require\\(''./node_modules/@prisma/client''\\); console.log\\(Object.keys\\(p\\).filter\\(k => k.toLowerCase\\(\\).includes\\(''prisma''\\)\\).slice\\(0,10\\)\\)\")",
+      "Bash(node -e \"const l = require\\(''./node_modules/lucide-react''\\); const keys = Object.keys\\(l\\); console.log\\(keys.filter\\(k => /gram|face|share|link|extern/i.test\\(k\\)\\).join\\('', ''\\)\\)\")",
+      "Bash(npm run:*)",
+      "Bash(PGPASSWORD=postgres PGSSLMODE=disable psql -h localhost -p 51214 -U postgres -d template1 -c '\\\\dt')",
+      "Bash(node -e \"const {PrismaClient} = require\\(''''./node_modules/@prisma/client''''\\); const c = new PrismaClient\\({}\\); console.log\\(''''ok''''\\)\")",
+      "Bash(node -e \":*)",
+      "Bash(curl -s \"http://localhost:3000/api/products?limit=3\")",
+      "Bash(kill -9 60416)",
+      "Bash(ls /Users/muraliveesambattu/Documents/thecoordsetstudio/.env*)",
+      "Bash(curl -s \"http://localhost:3000/api/products\")",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(json.dumps\\(d, indent=2\\)[:500]\\)\")",
+      "Bash(sed -i '' -e 's/The Co-Ord Set Studio/houseof swaishq collections/g' -e 's/\"\"short_name\"\": \"\"TCSS\"\"/\"\"short_name\"\": \"\"HSQ\"\"/g' public/manifest.json)",
+      "Bash(sed -i '' -e 's/The Co-Ord Set Studio/houseof swaishq collections/g' -e 's/TCSS-/HSQ-/g' -e 's/admin@thecoordsetstudio.com/admin@houseofswaishq.com/g' prisma/seed.ts)"
     ]
   }
 }

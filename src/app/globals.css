@@ -1,26 +1,136 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
+@plugin "@tailwindcss/forms";
+
+@theme {
+  /* ── Brand Colors ─────────────────────────────────────────── */
+  --color-rose:        #C9A6A6;
+  --color-rose-light:  #E8D5D5;
+  --color-rose-dark:   #A67F7F;
+  --color-ivory:       #FAF7F4;
+  --color-charcoal:    #2C2C2A;
+  --color-gold:        #BA7517;
+  --color-gold-light:  #D4921E;
+  --color-gold-dark:   #8A5610;
+
+  /* ── Semantic aliases ─────────────────────────────────────── */
+  --color-primary:     #C9A6A6;
+  --color-secondary:   #BA7517;
+  --color-background:  #FAF7F4;
+  --color-foreground:  #2C2C2A;
+
+  /* ── Fonts ────────────────────────────────────────────────── */
+  --font-heading: var(--font-cormorant), Georgia, serif;
+  --font-body:    var(--font-dm-sans), system-ui, sans-serif;
+  --font-sans:    var(--font-dm-sans), system-ui, sans-serif;
+
+  /* ── Animations ───────────────────────────────────────────── */
+  --animate-fade-in:        fadeIn 0.4s ease-in-out;
+  --animate-slide-up:       slideUp 0.4s ease-out;
+  --animate-slide-in-right: slideInRight 0.3s ease-out;
+
+  /* ── Breakpoints ──────────────────────────────────────────── */
+  --breakpoint-xs: 480px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
+}
+
+/* ── Base Styles ──────────────────────────────────────────────── */
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #FAF7F4;
+  --foreground: #2C2C2A;
+  --free-shipping-threshold: 999;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-dm-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Typography ───────────────────────────────────────────────── */
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-cormorant), Georgia, serif;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+/* ── Utility classes ──────────────────────────────────────────── */
+
+.font-heading {
+  font-family: var(--font-cormorant), Georgia, serif;
+}
+
+.font-body {
+  font-family: var(--font-dm-sans), system-ui, sans-serif;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+/* Scrollbar hide utility */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* ── Focus ring ───────────────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid #BA7517;
+  outline-offset: 2px;
+}
+
+/* ── Skip to content ──────────────────────────────────────────── */
+.skip-to-content {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  padding: 0.5rem 1rem;
+  background: #2C2C2A;
+  color: #FAF7F4;
+  z-index: 9999;
+  font-size: 0.875rem;
+}
+.skip-to-content:focus {
+  top: 1rem;
+}
+
+/* ── Product image zoom hover ─────────────────────────────────── */
+.product-img-wrapper {
+  overflow: hidden;
+}
+.product-img-wrapper img {
+  transition: transform 0.4s ease;
+}
+.product-img-wrapper:hover img {
+  transform: scale(1.06);
 }

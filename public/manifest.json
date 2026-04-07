@@ -1,0 +1,26 @@
+{
+  "name": "houseof swaishq collections",
+  "short_name": "HSQ",
+  "description": "Indian women's fashion — co-ord sets, kurti sets & dresses",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#FAF7F4",
+  "theme_color": "#2C2C2A",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["shopping", "lifestyle"],
+  "screenshots": []
+}
