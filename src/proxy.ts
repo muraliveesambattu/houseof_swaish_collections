@@ -5,7 +5,7 @@ import { authConfig } from "@/lib/auth.config";
 const { auth } = NextAuth(authConfig);
 
 export default auth((req) => {
-  const { pathname } = req.nextUrl;
+  const { pathname, search } = req.nextUrl;
   const session = req.auth;
 
   // Protect account routes
@@ -20,7 +20,9 @@ export default auth((req) => {
   // Protect admin routes
   if (pathname.startsWith("/admin")) {
     if (!session) {
-      return NextResponse.redirect(new URL("/login", req.url));
+      const url = new URL("/login", req.url);
+      url.searchParams.set("callbackUrl", `${pathname}${search}`);
+      return NextResponse.redirect(url);
     }
     const role = (session.user as { role?: string })?.role;
     if (role !== "ADMIN" && role !== "MANAGER") {
